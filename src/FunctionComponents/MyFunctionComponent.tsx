@@ -17,15 +17,6 @@ const MyFunctionComponent = ({ name, submit }: MyProps): JSX.Element => {
     const userNameStr = event.target.value;
     setUserName(userNameStr);
   };
-  
-  useEffect(() => {
-    console.log("MyFunctionComponent useEffect - getDerivedStateFromProps");
-    if (userName === "initial state user name") {
-      console.log(`-- changing state.username from '${userName}' to '${name}'`);
-      setUserName(name);
-    }
-  }, [userName, name]);
-
   useEffect(() => {
     console.log("MyFunctionComponent useEffect - componentDidMount");
     return () => {
@@ -34,12 +25,20 @@ const MyFunctionComponent = ({ name, submit }: MyProps): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    console.log("MyFunctionComponent useEffect - componentDidUpdate");
+    console.log("MyFunctionComponent useEffect - getDerivedStateFromProps");
+    console.log(`-- changing username to '${name}'`);
+    setUserName(name);
+  }, [name]);
+
+  useEffect(() => {
+    console.log(
+      `MyFunctionComponent useEffect - componentDidUpdate, name is '${userName}'`
+    );
+    return () => {};
   }, [userName]);
 
   return (
     <>
-      {console.log("MyFunctionComponent render")}
       <h1>Function Component</h1>
       <fieldset>
         <legend>Props</legend>
@@ -59,6 +58,7 @@ const MyFunctionComponent = ({ name, submit }: MyProps): JSX.Element => {
           <input type="submit" value="Submit (inverser flow)" />
         </form>
       </fieldset>
+      {console.log("MyFunctionComponent render")}
     </>
   );
 };
